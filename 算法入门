@@ -1,1 +1,24 @@
+最长上升子序列
+#include<iostream>
+#include<cstdio>
+using namespace std;
+int main()
+{
+    int n;
+    scanf("%d",&n);
+    int a[10001],dp[10001],max1=0;
+    for(int i=0;i<n;i++)
+    {    scanf("%d",&a[i]);
+         dp[i]=1;
+         for(int j=0;j<i;j++)
+         {
+             if(a[j]<a[i]) {dp[i]=max(dp[i],dp[j]+1);}
+             /*对于每个元素 给出它之前的最长上升序列 */    
+         }
+         max1=max(max1,dp[i]);
+         /*不断更新max1的值*/
+    }
+    printf("%d",max1);
+    return 0;
+}
 
