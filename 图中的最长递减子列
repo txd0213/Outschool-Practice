@@ -1,0 +1,62 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+struct p
+{
+    int h;
+    int x,y;
+} pp[10001];
+int path[101][101],d[101][101];
+int cmp(const struct p &a,const struct p &b)
+{
+    return a.h<b.h;
+}
+int main()
+{
+    int max1=0,r,c,k=1;
+    scanf("%d %d",&r,&c);
+    memset(path,-1,sizeof(path));
+    for(int i=1; i<=r; i++)
+        for(int j=1; j<=c; j++)
+        {
+            scanf("%d",&path[i][j]);
+            pp[k].h=path[i][j];
+            pp[k].x=i;
+            pp[k].y=j;
+            k++;
+        }
+    
+    int t=r*c;
+    sort(pp,pp+t+1,cmp);
+    for(int i=1; i<=t; i++)
+    {
+        int flag=0;
+        if(pp[i].h>path[pp[i].x-1][pp[i].y]&&path[pp[i].x-1][pp[i].y]!=-1)
+        {
+            d[pp[i].x][pp[i].y]=max(d[pp[i].x-1][pp[i].y]+1,d[pp[i].x][pp[i].y]);
+            flag=1;
+        }
+        if(pp[i].h>path[pp[i].x+1][pp[i].y]&&path[pp[i].x+1][pp[i].y]!=-1)
+        {
+            d[pp[i].x][pp[i].y]=max(d[pp[i].x+1][pp[i].y]+1,d[pp[i].x][pp[i].y]);
+            flag=1;
+        }
+        if(pp[i].h>path[pp[i].x][pp[i].y-1]&&path[pp[i].x][pp[i].y-1]!=-1)
+        {
+            d[pp[i].x][pp[i].y]=max(d[pp[i].x][pp[i].y-1]+1,d[pp[i].x][pp[i].y]);
+            flag=1;
+        }
+        if(pp[i].h>path[pp[i].x][pp[i].y+1]&&path[pp[i].x][pp[i].y+1]!=-1)
+        {
+            d[pp[i].x][pp[i].y]=max(d[pp[i].x][pp[i].y+1]+1,d[pp[i].x][pp[i].y]);
+            flag=1;
+        }
+        if(!flag) d[pp[i].x][pp[i].y]=1;
+        max1=max(max1,d[pp[i].x][pp[i].y]);
+    }
+    printf("%d",max1);
+    return 0;
+}
+/*由低到高给出每个点 所能继续前进的路径长度*/
