@@ -1,0 +1,22 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+using namespace std;
+int a[1000],w[1000];
+int d[1000][1000];
+int main()
+{
+    int n,v;
+    scanf("%d %d",&n,&v);
+    memset(d,0,sizeof(d));
+    for(int i=1;i<=n;i++){scanf("%d%d",&a[i],&w[i]);}
+    for(int i=1;i<=n;i++)
+    {
+        for(int j=0;j<=v;j++)
+            if(a[i]>j) d[i][j]=d[i-1][j];
+        else d[i][j]=max(d[i-1][j],d[i-1][j-a[i]]+w[i]);
+    }
+    printf("%d",d[n-1][v]);
+    return 0;
+}
