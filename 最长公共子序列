@@ -1,0 +1,24 @@
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+using namespace std;
+char str1[1000],str2[1000];
+int d[1000][1000];
+int main()
+{
+    while(scanf("%s%s",str1,str2)!=EOF)
+    {
+        int len1=strlen(str1),len2=strlen(str2);
+        /*strlen不能放在循环内 占用大量运行时间*/
+        for(int i=0;i<=len1;i++)
+            for(int j=0;j<=len2;j++)
+        {
+            if(i==0||j==0) d[i][j]=0;
+            else if(str2[j-1]==str1[i-1]) d[i][j]=d[i-1][j-1]+1;
+            else d[i][j]=max(d[i][j-1],d[i-1][j]);
+            /*将原问题分解成三个子问题*/
+        }
+        printf("%d\n",d[len1][len2]);
+    }
+    return 0;
+}
