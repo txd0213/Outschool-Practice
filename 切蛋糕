@@ -1,0 +1,32 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+const int INF = 0x3f3f3f3f;
+int MinS[21][21][21];   //MinS[i][j][k]表示将i*j的蛋糕分为k+1块（切k刀）最大的那块蛋糕的面积下限
+int main()
+{
+    int w,h,m;
+    while(cin >> w >> h >> m && (w || h || m)) {
+        memset(MinS,INF,sizeof MinS);
+        for(int i=1;i<=w;i++) {
+            for(int j=1;j<=h;j++) {
+                for(int k=0;k<=m-1;k++) {
+                    if(k == 0)
+                        MinS[i][j][k] = i*j;        // 当一块蛋糕不分时,自己即最大
+                    else if(i*j < k+1)
+                        MinS[i][j][k] = INF;        // i*j=k,却要分k+1块,分不了,因为求最小,那么失败设为无穷大
+                    else {
+                        for(int r=1;r<i;r++)        // 横着切
+                                for(int kk=0;kk<k;kk++)
+                                    MinS[i][j][k] = min(MinS[i][j][k],max(MinS[r][j][kk],MinS[i-r][j][k-kk-1]));
+                        for(int c=1;c<j;c++)        // 竖着切
+                                for(int kk=0;kk<k;kk++)
+                                    MinS[i][j][k] = min(MinS[i][j][k],max(MinS[i][c][kk],MinS[i][j-c][k-kk-1]));
+                    }
+                }
+            }
+        }
+        cout << MinS[w][h][m-1] << endl;
+    }
+}
