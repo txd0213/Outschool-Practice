@@ -7,6 +7,7 @@ int a[51],d[71][71];
 int main()
 {
     int n;
+    int j;
     scanf("%d",&n);
     memset(d,0,sizeof(d));
     for(int i=1; i<=n; i++)
